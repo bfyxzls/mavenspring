@@ -13,6 +13,7 @@
 
 package com.lind.mavenspring.controller.modeler;
 
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.ByteArrayInputStream;
@@ -50,7 +51,15 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
   @Autowired
   private ObjectMapper objectMapper;
 
-
+  /**
+   * 保存流程.
+   *
+   * @param modelId
+   * @param name
+   * @param description
+   * @param json_xml
+   * @param svg_xml
+   */
   @RequestMapping(value = "/model/{modelId}/save", method = RequestMethod.PUT)
   @ResponseStatus(value = HttpStatus.OK)
   public void saveModel(@PathVariable String modelId,
@@ -63,10 +72,13 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
       ObjectNode modelJson = (ObjectNode) objectMapper.readTree(model.getMetaInfo());
 
       int newVersion = model.getVersion() + 1;
+      // 更新key
+
       modelJson.put(MODEL_NAME, name);
       modelJson.put(MODEL_DESCRIPTION, description);
       modelJson.put(MODEL_REVISION, newVersion);
-
+      String key = StrUtil.subBetween(json_xml, "\"process_id\":\"", "\",\"name\"");
+      model.setKey(key);
       model.setMetaInfo(modelJson.toString());
       model.setName(name);
       model.setVersion(newVersion);
