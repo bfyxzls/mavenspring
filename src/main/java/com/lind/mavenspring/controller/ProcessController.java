@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Maps;
 import com.lind.mavenspring.ActivitiConfig;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -12,10 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,6 +25,7 @@ import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.RepositoryServiceImpl;
 import org.activiti.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.activiti.engine.impl.javax.el.ExpressionFactory;
@@ -484,5 +483,54 @@ public class ProcessController {
             log.error(e.toString());
             throw new IllegalArgumentException("读取流程图片失败");
         }
+    }
+
+    /**
+     * 流程实例的审批.
+     *
+     * @param id         任务ID ACT_RU_TASK.ID_
+     * @param procInstId 流程实例ID ACT_RU_TASK.PROC_INST_ID_
+     * @param assignees  分配人
+     * @param comment    备注
+     * @return
+     */
+    @RequestMapping(value = "/pass", method = RequestMethod.GET)
+    @ApiOperation(value = "任务节点审批通过")
+    public Object pass(@ApiParam("任务id") @RequestParam String id,
+                       @ApiParam("流程实例id") @RequestParam String procInstId,
+                       @ApiParam("下个节点审批人") @RequestParam(required = false) String[] assignees,
+                       @ApiParam("备注") @RequestParam(required = false) String comment) {
+
+
+        if (StrUtil.isBlank(comment)) {
+            comment = "";
+        }
+        taskService.addComment(id, procInstId, comment);
+        ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(procInstId).singleResult();
+        Task task = taskService.createTaskQuery().taskId(id).singleResult();
+        String taskDefinitionKey = task.getTaskDefinitionKey();
+        taskService.complete(id, Collections.emptyMap());
+
+        //判读是否会签结束，如果结束则给下一个节点赋  审批人
+        List<Task> tasks = taskService.createTaskQuery().processInstanceId(procInstId).list();
+        Map<String, Object> variablesMap = taskService.getVariables(tasks.get(0).getId());
+        Object signResult = variablesMap.get("SignResult");
+        if (signResult != null && StringUtils.isNotBlank(signResult.toString())) {//说明这里是会签过来的，可以直接从历史记录中获取之前的审批人作为审批人
+            //查询历史审批记录获取当前节点的历史审批人
+            List<HistoricTaskInstance> list = historyService.createHistoricTaskInstanceQuery().processInstanceId(procInstId).finished().orderByTaskCreateTime().desc().list();
+            String assignss = "";
+            for (HistoricTaskInstance value : list) {
+                if (value.getTaskDefinitionKey().equals("undertaking_department")) {//说明找到最近的
+                    assignss = value.getAssignee();
+                    break;
+                }
+            }
+            if (StringUtils.isNotBlank(assignss)) {
+                if (tasks.size() > 0) {
+                    taskService.setAssignee(tasks.get(0).getId(), assignss);
+                }
+            }
+        }
+        return "操作成功";
     }
 }
