@@ -450,8 +450,6 @@ public class ProcessController {
         } else {
             pi = runtimeService.createProcessInstanceQuery().processInstanceId(id).singleResult();
             BpmnModel bpmnModel = repositoryService.getBpmnModel(pi.getProcessDefinitionId());
-
-
             List<String> highLightedActivities = new ArrayList<String>();
             // 高亮任务节点
             List<Task> tasks = taskService.createTaskQuery().processInstanceId(id).list();
@@ -486,7 +484,7 @@ public class ProcessController {
     }
 
     /**
-     * 流程实例的审批.
+     * 流程实例的任务的审批.
      *
      * @param id         任务ID ACT_RU_TASK.ID_
      * @param procInstId 流程实例ID ACT_RU_TASK.PROC_INST_ID_
@@ -494,12 +492,13 @@ public class ProcessController {
      * @param comment    备注
      * @return
      */
-    @RequestMapping(value = "/pass", method = RequestMethod.GET)
+    @RequestMapping(value = "/pass/{procInstId}/{id}", method = RequestMethod.GET)
     @ApiOperation(value = "任务节点审批通过")
-    public Object pass(@ApiParam("任务id") @RequestParam String id,
-                       @ApiParam("流程实例id") @RequestParam String procInstId,
-                       @ApiParam("下个节点审批人") @RequestParam(required = false) String[] assignees,
-                       @ApiParam("备注") @RequestParam(required = false) String comment) {
+    public Object pass(
+            @ApiParam("流程实例id") @PathVariable String procInstId,
+            @ApiParam("任务id") @PathVariable String id,
+            @ApiParam("下个节点审批人") @RequestParam(required = false) String[] assignees,
+            @ApiParam("备注") @RequestParam(required = false) String comment) {
 
 
         if (StrUtil.isBlank(comment)) {
@@ -533,4 +532,63 @@ public class ProcessController {
         }
         return "操作成功";
     }
+
+    @RequestMapping(value = "/back/{procInstId}/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "任务节点审批驳回")
+    public Object back(
+            @ApiParam("流程实例id") @PathVariable String procInstId,
+            @ApiParam("任务id") @PathVariable String id,
+            @ApiParam("意见评论") @RequestParam(required = false) String comment) {
+
+        if (StrUtil.isBlank(comment)) {
+            comment = "";
+        }
+        taskService.addComment(id, procInstId, comment);
+        ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(procInstId).singleResult();
+        // 删除流程实例
+        runtimeService.deleteProcessInstance(procInstId, "backed");
+        return "操作成功";
+    }
+
+    @RequestMapping(value = "/delete/{ids}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "删除任务")
+    public Object delete(@ApiParam("任务id") @PathVariable String[] ids,
+                         @ApiParam("原因") @RequestParam(required = false) String reason) {
+
+        if (StrUtil.isBlank(reason)) {
+            reason = "";
+        }
+        for (String id : ids) {
+            taskService.deleteTask(id, reason);
+        }
+        return "操作成功";
+    }
+
+    @RequestMapping(value = "/deleteHistoric/{ids}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "删除任务历史")
+    public Object deleteHistoric(@ApiParam("任务id") @PathVariable String[] ids) {
+
+        for (String id : ids) {
+            historyService.deleteHistoricTaskInstance(id);
+        }
+        return "操作成功";
+    }
+
+    @RequestMapping(value = "/delInsByIds/{ids}", method = RequestMethod.GET)
+    @ApiOperation(value = "通过id删除运行中的实例")
+    public Object delInsByIds(@PathVariable String[] ids,
+                              @RequestParam(required = false) String reason) {
+
+        if (StrUtil.isBlank(reason)) {
+            reason = "";
+        }
+        for (String id : ids) {
+            // 关联业务状态结束
+            ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(id).singleResult();
+            runtimeService.deleteProcessInstance(id, reason);
+        }
+        return "删除成功";
+    }
+
+
 }
