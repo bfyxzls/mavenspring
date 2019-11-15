@@ -38,7 +38,11 @@ spring:
       minimum-idle: 5
       maximum-pool-size: 20
       connection-test-query: SELECT 1
-  activiti.check-process-definitions: false
+  activiti:
+    check-process-definitions: false
+    font:
+      activityFontName: 宋体
+      labelFontName: 宋体
 server:
   port: 8081
   tomcat:

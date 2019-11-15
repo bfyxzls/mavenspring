@@ -9,6 +9,7 @@ public class ActivitiDemoTest {
 
   /**
    * 初始化数据库语句.
+   *
    * @throws Exception
    */
   @Test
