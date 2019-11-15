@@ -4,8 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.collect.Maps;
-import com.lind.mavenspring.ActivitiConfig;
+import com.lind.mavenspring.config.ActivitiConfig;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
