@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @Component
 @ServletComponentScan
-@WebFilter
+@WebFilter(urlPatterns = "/hello/*")
 public class WrapperFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

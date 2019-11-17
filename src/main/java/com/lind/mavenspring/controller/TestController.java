@@ -1,14 +1,22 @@
 package com.lind.mavenspring.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.UUID;
+
 
 @RestController
 public class TestController {
+    static Logger logger = LoggerFactory.getLogger(TestController.class);
+    @Autowired
+    ApplicationEventPublisher applicationEventPublisher;
+
     @GetMapping("/hello")
     public String hello(HttpServletRequest request) {
         return request.getParameter("lind");
@@ -22,26 +30,10 @@ public class TestController {
     @GetMapping("/create-order")
     public DeferredResult<Object> createOrder() {
         DeferredResult<Object> deferredResult = new DeferredResult<>((long) 3000, "error order");
-        OrderQueue.put(deferredResult);
+        logger.info("发布建立订单的事件,线程ID："+Thread.currentThread().getId());
+        applicationEventPublisher.publishEvent(deferredResult);
+        logger.info("订单的事件完成,线程ID："+Thread.currentThread().getId());
         return deferredResult;
-    }
-
-    /**
-     * 事实上它是一个订单队列的消费者，在后台写订单，并通知到create-order中.
-     *
-     * @return
-     */
-    @GetMapping("/process-order")
-    public String processOrder() {
-        //建立订单
-        String order = UUID.randomUUID().toString();
-        DeferredResult<Object> deferredResult = OrderQueue.pop();
-        if (deferredResult == null) {
-            return "没有要处理的任务";
-        }
-        //当设置之后，create-order将成功响应
-        deferredResult.setResult(order);
-        return order;
     }
 
 
