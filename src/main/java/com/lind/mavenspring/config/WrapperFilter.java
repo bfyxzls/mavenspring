@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 为Wrapper提供的过滤器.
+ */
 @Component
 @ServletComponentScan
 @WebFilter(urlPatterns = "/hello/*")
@@ -23,8 +26,9 @@ public class WrapperFilter implements Filter {
         System.out.println("WrapperFilter.doFilter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-        DemoHttpServletRequestWrapper demoHttpServletRequestWrapper = new DemoHttpServletRequestWrapper((HttpServletRequest) request);
-        filterChain.doFilter(demoHttpServletRequestWrapper, response);
+        DemoHttpServletRequestWrapper demoHttpServletRequestWrapper = new DemoHttpServletRequestWrapper(req);
+        DemoHttpServletResponseWrapper demoHttpServletResponseWrapper = new DemoHttpServletResponseWrapper(resp);
+        filterChain.doFilter(demoHttpServletRequestWrapper, demoHttpServletResponseWrapper);
     }
 
     @Override
