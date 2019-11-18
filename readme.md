@@ -33,3 +33,5 @@
 * ACT_RU_TASK 流程运行任务表
 每次启动一个流程，都对对应一个新的流程实例（ACT_RU_EXECUTION）和多条任务（ACT_RU_TASK），即ACT_RU_EXECUTION和ACT_RE_PROCDEF添加数据
 是多对一的关系
+## 流程节点权限
+ACT_RU_EXECUTION.ACT_ID_：流程实例中节点的节点ID，以后权限权限主要根据这个字段
