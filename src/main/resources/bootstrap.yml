@@ -66,3 +66,5 @@ management:
   endpoint:
     health:
       show-details: always #开启健康信息包含磁盘空间、redis、DB，启用监控的这个spring boot应用确实是连接了redis和oracle DB
+
+test: bootstrap

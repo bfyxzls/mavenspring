@@ -4,6 +4,7 @@ import com.lind.mavenspring.config.AuthEdit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +19,12 @@ public class TestController {
     @Autowired
     ApplicationEventPublisher applicationEventPublisher;
 
+    @Value("${test:none}")
+    String applicationBootstrapValue;
+
     @GetMapping("/hello")
     public String hello(HttpServletRequest request) {
-        return request.getParameter("lind");
+        return request.getParameter("lind") + applicationBootstrapValue;
     }
 
     @GetMapping("/header")

@@ -1,4 +1,4 @@
-package com.lind.mavenspring.config.jwt;
+package com.lind.mavenspring.config.authorization.jwt;
 
 public interface Const {
     String TOKEN_SPLIT = "Bearer ";

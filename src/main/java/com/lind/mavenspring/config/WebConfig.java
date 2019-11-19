@@ -15,6 +15,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加拦截器，配置拦截地址
-        registry.addInterceptor(loginHandlerInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(loginHandlerInterceptor()).addPathPatterns("/header");
     }
 }

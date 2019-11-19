@@ -1,4 +1,4 @@
-package com.lind.mavenspring.config.jwt;
+package com.lind.mavenspring.config.authorization.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

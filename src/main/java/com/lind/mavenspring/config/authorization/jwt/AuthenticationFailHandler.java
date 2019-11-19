@@ -1,4 +1,4 @@
-package com.lind.mavenspring.config.jwt;
+package com.lind.mavenspring.config.authorization.jwt;
 
 import cn.hutool.core.util.StrUtil;
 import com.lind.mavenspring.exception.LoginFailLimitException;
@@ -27,10 +27,10 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class AuthenticationFailHandler extends SimpleUrlAuthenticationFailureHandler {
 
-    @Value("${xboot.loginTimeLimit}")
+    @Value("${auth.loginTimeLimit}")
     private Integer loginTimeLimit;
 
-    @Value("${xboot.loginAfterTime}")
+    @Value("${auth.loginAfterTime}")
     private Integer loginAfterTime;
 
     @Autowired
@@ -61,7 +61,7 @@ public class AuthenticationFailHandler extends SimpleUrlAuthenticationFailureHan
         } else if (e instanceof DisabledException) {
             ResponseUtil.out(response, ResponseUtil.resultMap(false, 500, "账户被禁用，请联系管理员"));
         } else if (e instanceof LoginFailLimitException) {
-            ResponseUtil.out(response, ResponseUtil.resultMap(false, 500, ((LoginFailLimitException) e).getMsg()));
+            ResponseUtil.out(response, ResponseUtil.resultMap(false, 500, ((LoginFailLimitException) e).getMessage()));
         } else {
             ResponseUtil.out(response, ResponseUtil.resultMap(false, 500, "登录失败，其他内部错误"));
         }

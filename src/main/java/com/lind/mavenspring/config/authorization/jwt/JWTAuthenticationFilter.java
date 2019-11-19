@@ -1,4 +1,4 @@
-package com.lind.mavenspring.config.jwt;
+package com.lind.mavenspring.config.authorization.jwt;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.gson.Gson;
@@ -36,7 +36,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
     /**
      * 用户token前缀key 单点登录使用
      */
-    String USER_TOKEN = "XBOOT_USER_TOKEN:";
+    String USER_TOKEN = "USER_TOKEN:";
     private Boolean tokenRedis;
     private Integer tokenExpireTime;
     private StringRedisTemplate redisTemplate;

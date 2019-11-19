@@ -1,4 +1,4 @@
-package com.lind.mavenspring.config.jwt;
+package com.lind.mavenspring.config.authorization.jwt;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.gson.Gson;
@@ -34,13 +34,13 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    @Value("${xboot.token.redis}")
+    @Value("${auth.token.redis}")
     private Boolean tokenRedis;
 
-    @Value("${xboot.tokenExpireTime}")
+    @Value("${auth.tokenExpireTime}")
     private Integer tokenExpireTime;
 
-    @Value("${xboot.saveLoginTime}")
+    @Value("${auth.saveLoginTime}")
     private Integer saveLoginTime;
 
     @Autowired

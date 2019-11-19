@@ -1,23 +1,21 @@
 package com.lind.mavenspring.exception;
 
-import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 
 /**
  * @author Exrickx
  */
-@Data
+@Getter
+
 public class LoginFailLimitException extends InternalAuthenticationServiceException {
 
-    private String msg;
 
-    public LoginFailLimitException(String msg){
-        super(msg);
-        this.msg = msg;
+    public LoginFailLimitException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public LoginFailLimitException(String msg, Throwable t) {
-        super(msg, t);
-        this.msg = msg;
+    public LoginFailLimitException(String message) {
+        super(message);
     }
 }

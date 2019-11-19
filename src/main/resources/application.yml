@@ -17,7 +17,7 @@ spring:
       exclude: static/**,public/**,WEB-INF/**  # 排除指定的目录文件 不需要restart
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.4.26:3306/zhfw_fd?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/activiti5?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: 123456
     # Druid StatViewServlet配置
@@ -80,10 +80,21 @@ spring:
       max-file-size: 10MB # 单个文件大小
       max-request-size: 30MB # 请求总上传的数据大小
       enabled: true
-access_token:
+auth:
   store-jwt: false
   jwt-signing-key: incloud=$==+_+%0%:)(:)
   add-userinfo: false
+  token:
+    # 默认JWT 启用Redis后设置为true后，token将存入redis，并具有单点登录功能
+    redis: true
+  # token过期时间（分钟）
+  tokenExpireTime: 60
+  # 用户选择保存登录状态对应token过期时间（天）
+  saveLoginTime: 7
+  # 限制用户登陆错误次数（次）
+  loginTimeLimit: 10
+  # 错误超过次数后多少分钟后才能继续登录（分钟）
+  loginAfterTime: 10
 
 security:
   oauth2:
@@ -99,8 +110,8 @@ mybatis-plus:
   # 放在resource目录 classpath:/mapper/*.xml
   mapper-locations: classpath:/mapper/*.xml
   # 实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.bdyh.common.activiti.entity.**
-  typeEnumsPackage: com.bdyh.common.activiti.entity.**
+  #typeAliasesPackage: com.bdyh.common.activiti.entity.**
+  #typeEnumsPackage: com.bdyh.common.activiti.entity.**
   global-config:
     # 主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
     id-type: 2
@@ -147,3 +158,4 @@ swagger:
     url: http://www.pkulaw.cn
     email: tech@pkulaw.cn
 
+test: application
