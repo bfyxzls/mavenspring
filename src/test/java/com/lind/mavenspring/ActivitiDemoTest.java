@@ -1,3 +1,5 @@
+package com.lind.mavenspring;
+
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngineConfiguration;
 import org.junit.Test;

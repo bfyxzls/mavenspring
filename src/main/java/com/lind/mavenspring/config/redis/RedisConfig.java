@@ -14,44 +14,56 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
- * @author Exrickx
+ * redis配置.
  */
 @Configuration
 public class RedisConfig {
 
-    @Autowired
-    JedisConnectionFactory jedisConnectionFactory;
+  @Autowired
+  JedisConnectionFactory jedisConnectionFactory;
 
-    @Bean
-    public JedisPool jedisPool() {
-        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxTotal(1000);
-        return new JedisPool(jedisPoolConfig,
-                jedisConnectionFactory.getHostName(), jedisConnectionFactory.getPort(),
-                jedisConnectionFactory.getTimeout(), jedisConnectionFactory.getPassword());
-    }
+  /**
+   * init.
+   *
+   * @return
+   */
+  @Bean
+  public JedisPool jedisPool() {
+    JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+    jedisPoolConfig.setMaxTotal(1000);
+    return new JedisPool(jedisPoolConfig,
+        jedisConnectionFactory.getHostName(), jedisConnectionFactory.getPort(),
+        jedisConnectionFactory.getTimeout(), jedisConnectionFactory.getPassword());
+  }
 
-    @Bean("objectRedis")
-    @SuppressWarnings("all")
-    public RedisTemplate<String, Object> redisTemplate(JedisConnectionFactory factory) {
-        RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
-        template.setConnectionFactory(factory);
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
-        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-        // key采用String的序列化方式
-        template.setKeySerializer(stringRedisSerializer);
-        // hash的key也采用String的序列化方式
-        template.setHashKeySerializer(stringRedisSerializer);
-        // value序列化方式采用jackson
-        template.setValueSerializer(jackson2JsonRedisSerializer);
-        // hash的value序列化方式采用jackson
-        template.setHashValueSerializer(jackson2JsonRedisSerializer);
-        template.afterPropertiesSet();
-        return template;
+  /**
+   * register redisTemplate.
+   *
+   * @param factory 工厂
+   * @return
+   */
+  @Bean("objectRedis")
+  @SuppressWarnings("all")
+  public RedisTemplate<String, Object> redisTemplate(JedisConnectionFactory factory) {
+    RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
+    template.setConnectionFactory(factory);
+    Jackson2JsonRedisSerializer jackson2JsonRedisSerializer =
+        new Jackson2JsonRedisSerializer(Object.class);
+    ObjectMapper om = new ObjectMapper();
+    om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+    om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+    jackson2JsonRedisSerializer.setObjectMapper(om);
+    StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+    // key采用String的序列化方式
+    template.setKeySerializer(stringRedisSerializer);
+    // hash的key也采用String的序列化方式
+    template.setHashKeySerializer(stringRedisSerializer);
+    // value序列化方式采用jackson
+    template.setValueSerializer(jackson2JsonRedisSerializer);
+    // hash的value序列化方式采用jackson
+    template.setHashValueSerializer(jackson2JsonRedisSerializer);
+    template.afterPropertiesSet();
+    return template;
 
-    }
+  }
 }

@@ -1,3 +1,5 @@
+package com.lind.mavenspring;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 

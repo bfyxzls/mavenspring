@@ -1,3 +1,5 @@
+package com.lind.mavenspring;
+
 import org.junit.Test;
 
 import java.io.File;
@@ -48,5 +50,6 @@ public class NioTest {
 
         }
     }
+
 }
 
