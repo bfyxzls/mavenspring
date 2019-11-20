@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.Callable;
 
 
 @RestController
@@ -44,6 +45,20 @@ public class TestController {
         applicationEventPublisher.publishEvent(deferredResult);
         logger.info("订单的事件完成,线程ID：" + Thread.currentThread().getId());
         return deferredResult;
+    }
+
+    @GetMapping("/test-call")
+    public Callable<String> getCall() {
+        logger.info("主线程开始ID：" + Thread.currentThread().getId());
+        //创建一个Callable，3秒后返回String类型
+        Callable myCallable1 = () -> {
+            Thread.sleep(3000);
+            System.out.println("call方法执行了");
+            logger.info("异步线程ID：" + Thread.currentThread().getId());
+            return "call方法返回值";
+        };
+        logger.info("主线程结束ID：" + Thread.currentThread().getId());
+        return myCallable1;
     }
 
     @AuthEdit("read")

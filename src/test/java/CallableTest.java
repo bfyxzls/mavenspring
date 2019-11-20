@@ -58,16 +58,13 @@ public class CallableTest {
     public void testRunnableFuture() {
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("runnable");
+        Runnable runnable = () -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            System.out.println("runnable");
         };
         System.out.println("提交任务之前" + DateTime.now());
         executor.submit(runnable);
