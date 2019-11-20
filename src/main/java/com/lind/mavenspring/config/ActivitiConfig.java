@@ -16,8 +16,14 @@ import org.springframework.context.annotation.Configuration;
 public class ActivitiConfig {
   @Autowired
   private ActivitiExtendProperties properties;
+
+  /**
+   * init.
+   *
+   * @return
+   */
   @Bean
-  public ProcessEngineConfigurationConfigurer processEngineConfigurationConfigurer(){
+  public ProcessEngineConfigurationConfigurer processEngineConfigurationConfigurer() {
 
     ProcessEngineConfigurationConfigurer configurer = new ProcessEngineConfigurationConfigurer() {
       @Override
@@ -36,15 +42,15 @@ public class ActivitiConfig {
   @ConfigurationProperties(prefix = "spring.activiti.font")
   public static class ActivitiExtendProperties {
 
-      /**
-       * 流程图字体配置
-       */
-      private String activityFontName = "宋体";
+    /**
+     * 流程图字体配置.
+     */
+    private String activityFontName = "宋体";
 
-      /**
-       * 流程图字体配置
-       */
-      private String labelFontName = "宋体";
+    /**
+     * 流程图字体配置.
+     */
+    private String labelFontName = "宋体";
   }
 }
 
