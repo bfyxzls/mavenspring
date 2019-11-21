@@ -1,0 +1,88 @@
+spring:
+  application:
+    name: maventest
+  devtools:
+    restart:
+      enabled: true   # 热部署是否启动
+      additional-paths: src/main/java   # 监听哪一部分的目录
+      exclude: static/**,public/**,WEB-INF/**  # 排除指定的目录文件 不需要restart
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+  zipkin:
+    base-url: http://localhost:4070
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/activiti5?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+    # Druid StatViewServlet配置
+    druid:
+      stat-view-servlet:
+        # 默认true 内置监控页面首页/druid/index.html
+        enabled: true
+        url-pattern: /druid/*
+        # 允许清空统计数据
+        reset-enable: true
+        login-username: zhfw
+        login-password: zhfw
+        # IP白名单 多个逗号分隔
+        allow:
+        # IP黑名单
+        deny:
+      filter:
+        stat:
+          # 显示慢sql 默认当超过3秒显示
+          log-slow-sql: true
+          slow-sql-millis: 100
+      max-active: 200
+      initial-size: 20
+      min-idle: 20
+      max-wait: 6000
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      connection-test-query: SELECT 1
+  activiti:
+    check-process-definitions: false
+    font:
+      activityFontName: 宋体
+      labelFontName: 宋体
+
+
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+server:
+  port: 8081
+  tomcat:
+    basedir: D:/temp
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:4060/eureka/
+    registry-fetch-interval-seconds: 5 #eureka client间隔多久去拉取服务注册信息，默认为30秒
+  instance:
+    lease-expiration-duration-in-seconds: 15 #eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，在这个时间内若没收到下一次心跳，则将移除该instance
+    lease-renewal-interval-in-seconds: 5 #eureka client发送心跳给server端的频率，默认30
+    prefer-ip-address: true #使用IP注册
+    instance-id: ${spring.application.name}:${random.int}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" #启用所有的监控端点,  actuator/端点名,常用端点有health，info，metrics
+  endpoint:
+    health:
+      show-details: always #开启健康信息包含磁盘空间、redis、DB，启用监控的这个spring boot应用确实是连接了redis和oracle DB
+
+test: bootstrap

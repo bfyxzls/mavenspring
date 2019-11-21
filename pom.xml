@@ -6,7 +6,12 @@
 
     <groupId>com.lind</groupId>
     <artifactId>maven-spring</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>maven-spring-b</module>
+        <module>maven-spring-core</module>
+    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -131,31 +136,6 @@
             <version>8.0.11</version>
         </dependency>
 
-        <!-- Activiti -->
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-spring-boot-starter-basic</artifactId>
-            <version>5.22.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.mybatis</groupId>
-                    <artifactId>mybatis</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- Activiti流程图 -->
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-diagram-rest</artifactId>
-            <version>5.22.0</version>
-        </dependency>
-        <!-- Activiti在线设计 -->
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-modeler</artifactId>
-            <version>5.22.0</version>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
@@ -203,6 +183,32 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.9.6</version>
         </dependency>
+        <!-- zipkin-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-core</artifactId>
+            <version>3.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-spancollector-http</artifactId>
+            <version>3.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-web-servlet-filter</artifactId>
+            <version>3.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-okhttp</artifactId>
+            <version>3.9.0</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -241,20 +247,4 @@
 
         </dependencies>
     </dependencyManagement>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.9.1</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.3</version>
-            </plugin>
-        </plugins>
-    </reporting>
-
 </project>
