@@ -42,6 +42,8 @@
         <tkmybatis.version>2.0.0</tkmybatis.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
+        <elasticsearch.version>6.4.1</elasticsearch.version>
+        <spring.data.elasticsearch.version>3.1.0.RELEASE</spring.data.elasticsearch.version>
     </properties>
     <dependencies>
         <dependency>
