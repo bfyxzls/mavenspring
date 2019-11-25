@@ -1,0 +1,43 @@
+message: 开发环境abv #它会覆盖application里的配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" #启用所有的监控端点,  actuator/端点名,常用端点有health，info，metrics
+  endpoint:
+    health:
+      show-details: always #开启健康信息包含磁盘空间、redis、DB，启用监控的这个spring boot应用确实是连接了redis和oracle DB
+spring:
+  profiles.include: dev-redis, dev-rabbitmq, dev-eureka
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/activiti5?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+    # Druid StatViewServlet配置
+    druid:
+      stat-view-servlet:
+        # 默认true 内置监控页面首页/druid/index.html
+        enabled: true
+        url-pattern: /druid/*
+        # 允许清空统计数据
+        reset-enable: true
+        login-username: zhfw
+        login-password: zhfw
+        # IP白名单 多个逗号分隔
+        allow:
+        # IP黑名单
+        deny:
+      filter:
+        stat:
+          # 显示慢sql 默认当超过3秒显示
+          log-slow-sql: true
+          slow-sql-millis: 100
+      max-active: 200
+      initial-size: 20
+      min-idle: 20
+      max-wait: 6000
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      connection-test-query: SELECT 1

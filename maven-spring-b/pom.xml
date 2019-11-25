@@ -11,6 +11,11 @@
 
     <artifactId>maven-spring-b</artifactId>
     <dependencies>
+        <!-- configServer客户端-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
         <!-- mybatis plus-->
         <dependency>
             <groupId>com.baomidou</groupId>
