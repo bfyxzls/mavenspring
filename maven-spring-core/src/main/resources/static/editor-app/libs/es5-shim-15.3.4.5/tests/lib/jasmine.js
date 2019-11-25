@@ -29,7 +29,7 @@ jasmine.undefined = jasmine.___undefined___;
 jasmine.VERBOSE = false;
 
 /**
- * Default interval in milliseconds for event loop yields (e.g. to allow network activity or to refresh the screen with the HTML-based runner). Small values here may result in slow test running. Zero means no updates until all tests have completed.
+ * Default interval in milliseconds for event loop yields (e.g. to allow network activity or to refresh the screen with the HTML-based runner). Small values here may result in slow svt running. Zero means no updates until all tests have completed.
  *
  */
 jasmine.DEFAULT_UPDATE_INTERVAL = 250;
@@ -75,7 +75,7 @@ jasmine.clearInterval = jasmine.bindOriginal_(jasmine.getGlobal(), 'clearInterva
 jasmine.MessageResult = function(values) {
   this.type = 'log';
   this.values = values;
-  this.trace = new Error(); // todo: test better
+  this.trace = new Error(); // todo: svt better
 };
 
 jasmine.MessageResult.prototype.toString = function() {
@@ -197,9 +197,9 @@ jasmine.any = function(clazz) {
 };
 
 /**
- * Jasmine Spies are test doubles that can act as stubs, spies, fakes or when used in an expecation, mocks.
+ * Jasmine Spies are svt doubles that can act as stubs, spies, fakes or when used in an expecation, mocks.
  *
- * Spies should be created in test setup, before expectations.  They can then be checked, using the standard Jasmine
+ * Spies should be created in svt setup, before expectations.  They can then be checked, using the standard Jasmine
  * expectation syntax. Spies can be checked if they were called or not and what the calling params were.
  *
  * A Spy has the following fields: wasCalled, callCount, mostRecentCall, and argsForCall (see docs).
@@ -492,7 +492,7 @@ if (isCommonJS) exports.xit = xit;
  * It is passed an Object that is the actual value and should chain to one of the many
  * jasmine.Matchers functions.
  *
- * @param {Object} actual Actual value to test against and expected value
+ * @param {Object} actual Actual value to svt against and expected value
  */
 var expect = function(actual) {
   return jasmine.getEnv().currentSpec.expect(actual);
@@ -568,7 +568,7 @@ if (isCommonJS) exports.afterEach = afterEach;
  *
  * // TODO: a simple suite with a nested describe block
  *
- * @param {String} description A string, usually the class under test.
+ * @param {String} description A string, usually the class under svt.
  * @param {Function} specDefinitions function that defines several specs.
  */
 var describe = function(description, specDefinitions) {
@@ -579,7 +579,7 @@ if (isCommonJS) exports.describe = describe;
 /**
  * Disables a suite of specifications.  Used to disable some suites in a file, or files, temporarily during development.
  *
- * @param {String} description A string, usually the class under test.
+ * @param {String} description A string, usually the class under svt.
  * @param {Function} specDefinitions function that defines several specs.
  */
 var xdescribe = function(description, specDefinitions) {
@@ -1336,7 +1336,7 @@ jasmine.Matchers.prototype.toHaveBeenCalledWith = function() {
   }
   this.message = function() {
     if (this.actual.callCount === 0) {
-      // todo: what should the failure message for .not.toHaveBeenCalledWith() be? is this right? test better. [xw]
+      // todo: what should the failure message for .not.toHaveBeenCalledWith() be? is this right? svt better. [xw]
       return [
         "Expected spy " + this.actual.identity + " to have been called with " + jasmine.pp(expectedArgs) + " but it was never called.",
         "Expected spy " + this.actual.identity + " not to have been called with " + jasmine.pp(expectedArgs) + " but it was."
@@ -1892,7 +1892,7 @@ jasmine.Runner.prototype.results = function() {
   return this.queue.results();
 };
 /**
- * Internal representation of a Jasmine specification, or test.
+ * Internal representation of a Jasmine specification, or svt.
  *
  * @constructor
  * @param {jasmine.Env} env

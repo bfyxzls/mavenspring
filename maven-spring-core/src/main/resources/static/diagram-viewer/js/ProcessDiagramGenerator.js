@@ -602,7 +602,7 @@ var ProcessDiagramGenerator = {
 				var isHighLighted = flow.isHighLighted;
 				
 				// TODO: add source and destination for sequence flows in REST
-				// parse for test
+				// parse for svt
 					var f = flow.flow;
 					var matches = f.match(/\((.*)\)--.*-->\((.*)\)/);
 					var sourceActivityId, destinationActivityId;

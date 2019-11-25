@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: config-server
+  profiles:
+    active:
+      - native
+      - dev
+  cloud:
+    config:
+      allowOverride: true
+      overrideNone: false
+      overrideSystemProperties: false
+      server:
+        native:
+          searchLocations: classpath:/config/{profile}
+        git:
+          uri: http://192.168.0.161/lvzhuqing/beidaWisdomLaw.git
+          default-label: master
+          force-pull: true
+          searchPaths: '{profile}'
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:4060/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.int}
+server:
+  port: 8700

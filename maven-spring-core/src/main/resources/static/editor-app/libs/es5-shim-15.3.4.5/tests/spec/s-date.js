@@ -7,7 +7,7 @@ describe('Date', function () {
     });
 
     describe("parse", function () {
-        // TODO: Write the rest of the test.
+        // TODO: Write the rest of the svt.
 
         it('should support extended years', function () {
 
@@ -109,7 +109,7 @@ describe('Date', function () {
     });
 
     describe("toISOString", function () {
-        // TODO: write the rest of the test.
+        // TODO: write the rest of the svt.
        
         it('should support extended years', function () {
             expect(new Date(-62198755200000).toISOString().indexOf('-000001-01-01')).toBe(0);

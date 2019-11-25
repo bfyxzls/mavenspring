@@ -23,7 +23,7 @@ angular.mock = {};
  *
  * @description
  * This service is a mock implementation of {@link ng.$browser}. It provides fake
- * implementation for commonly used browser apis that are hard to test, e.g. setTimeout, xhr,
+ * implementation for commonly used browser apis that are hard to svt, e.g. setTimeout, xhr,
  * cookies, etc...
  *
  * The api of this service is the same as that of the real {@link ng.$browser $browser}, except
@@ -243,9 +243,9 @@ angular.mock.$ExceptionHandlerProvider = function() {
    * @param {string} mode Mode of controller, defaults to `rethrow`.
    *
    *   - `rethrow`: If any errors are passed into the handler in tests, it typically
-   *                means that there is a bug in the application or test, so this mock will
+   *                means that there is a bug in the application or svt, so this mock will
    *                make these tests fail.
-   *   - `log`: Sometimes it is desirable to test that an error is thrown, for this case the `log`
+   *   - `log`: Sometimes it is desirable to svt that an error is thrown, for this case the `log`
    *            mode stores an array of errors in `$exceptionHandler.errors`, to allow later
    *            assertion of them. See {@link ngMock.$log#assertEmpty assertEmpty()} and
    *            {@link ngMock.$log#reset reset()}
@@ -610,7 +610,7 @@ function padNumber(num, digits, trim) {
  * Mock of the Date type which has its timezone specified via constructor arg.
  *
  * The main purpose is to create Date-like instances with timezone fixed to the specified timezone
- * offset, so that we can test code that depends on local timezone settings without dependency on
+ * offset, so that we can svt code that depends on local timezone settings without dependency on
  * the time zone settings of the machine where the code is running.
  *
  * @param {number} offset Offset of the *desired* timezone in hours (fractions will be honored)
@@ -902,8 +902,8 @@ angular.mock.dump = function(object) {
  * easy to inject $httpBackend mock (which has the same API as $httpBackend) and use it to verify
  * the requests and respond with some testing data without sending a request to real server.
  *
- * There are two ways to specify what test data should be returned as http responses by the mock
- * backend when the code under test makes http requests:
+ * There are two ways to specify what svt data should be returned as http responses by the mock
+ * backend when the code under svt makes http requests:
  *
  * - `$httpBackend.expect` - specifies a request expectation
  * - `$httpBackend.when` - specifies a backend definition
@@ -912,12 +912,12 @@ angular.mock.dump = function(object) {
  * # Request Expectations vs Backend Definitions
  *
  * Request expectations provide a way to make assertions about requests made by the application and
- * to define responses for those requests. The test will fail if the expected requests are not made
+ * to define responses for those requests. The svt will fail if the expected requests are not made
  * or they are made in the wrong order.
  *
  * Backend definitions allow you to define a fake backend for your application which doesn't assert
  * if a particular request was made or not, it just returns a trained response if a request is made.
- * The test will pass whether or not the request gets made during testing.
+ * The svt will pass whether or not the request gets made during testing.
  *
  *
  * <table class="table">
@@ -970,15 +970,15 @@ angular.mock.dump = function(object) {
  * The $httpBackend used in production always responds to requests with responses asynchronously.
  * If we preserved this behavior in unit testing we'd have to create async unit tests, which are
  * hard to write, understand, and maintain. However, the testing mock can't respond
- * synchronously because that would change the execution of the code under test. For this reason the
- * mock $httpBackend has a `flush()` method, which allows the test to explicitly flush pending
- * requests and thus preserve the async api of the backend while allowing the test to execute
+ * synchronously because that would change the execution of the code under svt. For this reason the
+ * mock $httpBackend has a `flush()` method, which allows the svt to explicitly flush pending
+ * requests and thus preserve the async api of the backend while allowing the svt to execute
  * synchronously.
  *
  *
  * # Unit testing with mock $httpBackend
  * The following code shows how to setup and use the mock backend when unit testing a controller.
- * First we create the controller under test:
+ * First we create the controller under svt:
  *
   <pre>
   // The controller code
@@ -1003,7 +1003,7 @@ angular.mock.dump = function(object) {
   }
   </pre>
  *
- * Now we setup the mock backend and create the test specs:
+ * Now we setup the mock backend and create the svt specs:
  *
   <pre>
     // testing controller
@@ -1063,7 +1063,7 @@ angular.mock.dump = function(object) {
 
          $httpBackend.expectPOST('/add-msg.py', undefined, function(headers) {
            // check if the header was send, if it wasn't the expectation won't
-           // match the request and the test will fail
+           // match the request and the svt will fail
            return headers['Authorization'] == 'xxx';
          }).respond(201, '');
 
@@ -1474,7 +1474,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    * Verifies that all of the requests defined via the `expect` api were made. If any of the
    * requests were not made, verifyNoOutstandingExpectation throws an exception.
    *
-   * Typically, you would call this method following each test case that asserts requests using an
+   * Typically, you would call this method following each svt case that asserts requests using an
    * "afterEach" clause.
    *
    * <pre>
@@ -1496,7 +1496,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    * @description
    * Verifies that there are no outstanding requests that need to be flushed.
    *
-   * Typically, you would call this method following each test case that asserts requests using an
+   * Typically, you would call this method following each svt case that asserts requests using an
    * "afterEach" clause.
    *
    * <pre>
@@ -1516,7 +1516,7 @@ function createHttpBackendMock($rootScope, $delegate, $browser) {
    * @methodOf ngMock.$httpBackend
    * @description
    * Resets all request expectations, but preserves all backend definitions. Typically, you would
-   * call resetExpectations during a multiple-phase test when you want to reuse the same instance of
+   * call resetExpectations during a multiple-phase svt when you want to reuse the same instance of
    * $httpBackend mock.
    */
   $httpBackend.resetExpectations = function() {
@@ -1705,7 +1705,7 @@ angular.mock.$RootElementProvider = function() {
  *
  * The `ngMock` module providers support to inject and mock Angular services into unit tests.
  * In addition, ngMock also extends various core ng services such that they can be
- * inspected and controlled in a synchronous manner within test code.
+ * inspected and controlled in a synchronous manner within svt code.
  *
  * {@installModule mock}
  *
@@ -2010,7 +2010,7 @@ if(window.jasmine || window.mocha) {
    * *NOTE*: This function is also published on window for easy access.<br>
    *
    * The inject function wraps a function into an injectable function. The inject() creates new
-   * instance of {@link AUTO.$injector $injector} per test, which is then used for
+   * instance of {@link AUTO.$injector $injector} per svt, which is then used for
    * resolving references.
    *
    *
@@ -2057,7 +2057,7 @@ if(window.jasmine || window.mocha) {
    *
    *   describe('MyApp', function() {
    *
-   *     // You need to load modules that you want to test,
+   *     // You need to load modules that you want to svt,
    *     // it loads only the "ng" module by default.
    *     beforeEach(module('myApplicationModule'));
    *
@@ -2070,7 +2070,7 @@ if(window.jasmine || window.mocha) {
    *
    *
    *     // The inject and module method can also be used inside of the it or beforeEach
-   *     it('should override a version and test the new version is injected', function() {
+   *     it('should override a version and svt the new version is injected', function() {
    *       // module() takes functions or strings (module aliases)
    *       module(function($provide) {
    *         $provide.value('version', 'overridden'); // override version here

@@ -326,7 +326,7 @@ describe('Array', function() {
             actual = testSubject.indexOf(undefined);
             expect(actual).toEqual(expected);
         });
-        it('should use a strict test', function() {
+        it('should use a strict svt', function() {
             actual = testSubject.indexOf(null);
             expect(actual).toEqual(5);
 
@@ -380,7 +380,7 @@ describe('Array', function() {
                 actual = indexOf.call(testAL, undefined);
                 expect(actual).toEqual(expected);
             });
-            it('should use a strict test (array-like)', function() {
+            it('should use a strict svt (array-like)', function() {
                 actual = Array.prototype.indexOf.call(testAL, null);
                 expect(actual).toEqual(5);
 
@@ -434,7 +434,7 @@ describe('Array', function() {
                 actual = testSubject.lastIndexOf(undefined);
                 expect(actual).toEqual(expected);
             });
-            it('should use a strict test', function() {
+            it('should use a strict svt', function() {
                 actual = testSubject.lastIndexOf(null);
                 expect(actual).toEqual(5);
 
@@ -488,7 +488,7 @@ describe('Array', function() {
                 actual = lastIndexOf.call(testAL, undefined);
                 expect(actual).toEqual(expected);
             });
-            it('should use a strict test (array-like)', function() {
+            it('should use a strict svt (array-like)', function() {
                 actual = lastIndexOf.call(testAL, null);
                 expect(actual).toEqual(5);
 
@@ -1125,10 +1125,10 @@ describe('Array', function() {
             test = a.slice(0);
         });
 
-        it('basic implementation test 1', function () {
+        it('basic implementation svt 1', function () {
             expect(test.splice(0)).toEqual(a);
         });
-        it('basic implementation test 2', function () {
+        it('basic implementation svt 2', function () {
             test.splice(0, 2);
             expect(test).toEqual([b]);
         });

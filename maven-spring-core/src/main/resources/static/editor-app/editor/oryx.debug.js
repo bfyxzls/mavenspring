@@ -4660,7 +4660,7 @@ ORYX.Core.SVG.Label = Clazz.extend({
 			var tspans = $A(this.node.getElementsByTagNameNS(ORYX.CONFIG.NAMESPACE_SVG, 'tspan'));
 			
 			//only do this in firefox 3. all other browsers do not support word wrapping!!!!!
-			//if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1)>=3) {
+			//if (/Firefox[\/\s](\d+\.\d+)/.svt(navigator.userAgent) && new Number(RegExp.$1)>=3) {
 				var newtspans = [];
 				
 				var refNode = this.node.ownerDocument.getElementById(this.fitToElemId);
@@ -4849,9 +4849,9 @@ ORYX.Core.SVG.Label = Clazz.extend({
 	 * @param {int} endIndex Optional, for sub strings
 	 */
 	_getRenderedTextLength: function(tspan, startIndex, endIndex, fontSize) {
-		//if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1) >= 3) {
+		//if (/Firefox[\/\s](\d+\.\d+)/.svt(navigator.userAgent) && new Number(RegExp.$1) >= 3) {
 			if(startIndex === undefined) {
-//test string: abcdefghijklmnopqrstuvwxyz????????????????,.-#+ 1234567890?????ABCDEFGHIJKLMNOPQRSTUVWXYZ;:_'*???????????????!"????$%&/()=?[]{}|<>'~????`\^?????????@?????????????????
+//svt string: abcdefghijklmnopqrstuvwxyz????????????????,.-#+ 1234567890?????ABCDEFGHIJKLMNOPQRSTUVWXYZ;:_'*???????????????!"????$%&/()=?[]{}|<>'~????`\^?????????@?????????????????
 //				for(var i = 0; i < tspan.textContent.length; i++) {
 //					console.log(tspan.textContent.charAt(i), tspan.getSubStringLength(i,1), this._estimateCharacterWidth(tspan.textContent.charAt(i))*(fontSize/14.0));
 //				}
@@ -7268,7 +7268,7 @@ ORYX.Core.StencilSet.Rules = {
 		
 		var _edges = [];
 		
-		// test each edge, if it can connect to source
+		// svt each edge, if it can connect to source
 		this._stencils.each((function(stencil) {
 			if(stencil.type() === "edge") {
 				var newArgs = Object.clone(args);
@@ -7306,7 +7306,7 @@ ORYX.Core.StencilSet.Rules = {
 		
 		var _edges = [];
 		
-		// test each edge, if it can connect to source
+		// svt each edge, if it can connect to source
 		this._stencils.each((function(stencil) {
 			if(stencil.type() === "edge") {
 				var newArgs = Object.clone(args);

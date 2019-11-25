@@ -190,7 +190,7 @@ if ((supportsAccessors = owns(prototypeOfObject, "__defineGetter__"))) {
 if ([1,2].splice(0).length != 2) {
     var array_splice = Array.prototype.splice;
 
-    if(function() { // test IE < 9 to splice bug - see issue #138
+    if(function() { // svt IE < 9 to splice bug - see issue #138
         function makeArray(l) {
             var a = [];
             while (l--) {

@@ -20,7 +20,7 @@ public class TestController {
   @Autowired
   ApplicationEventPublisher applicationEventPublisher;
 
-  @Value("${test:none}")
+  @Value("${svt:none}")
   String applicationBootstrapValue;
   @Autowired
   MavenSpringBClient mavenSpringBClient;
