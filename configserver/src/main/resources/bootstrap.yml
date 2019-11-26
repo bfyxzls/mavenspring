@@ -7,9 +7,6 @@ spring:
       - dev
   cloud:
     config:
-      allowOverride: true
-      overrideNone: false
-      overrideSystemProperties: false
       server:
         native:
           searchLocations: classpath:/config/{profile}

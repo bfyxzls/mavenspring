@@ -3,9 +3,9 @@ message: 开发环境application
 
 spring:
   cloud.config:
-    allowOverride: true
-    overrideNone: false
-    overrideSystemProperties: false
+    allowOverride: true #外部源配置是否可被覆盖,相当于它会覆盖本地的同名配置项
+    overrideNone: false #外部源配置是否不覆盖任何源
+    overrideSystemProperties: false #仅仅系统属性和环境变量
   sleuth:
     web:
       client:
