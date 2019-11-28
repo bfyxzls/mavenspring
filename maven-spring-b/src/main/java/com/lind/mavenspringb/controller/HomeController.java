@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
   @Value("${message}")
   String message;
+
   @GetMapping("/hello")
   public String getInfo() {
-    return "service b data"+message;
+    return "service b data" + message;
   }
 }

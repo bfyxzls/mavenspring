@@ -7,7 +7,7 @@ spring:
     config:
       discovery:
         enabled: true #从eureka上找服务
-        serviceId: config-server #服务application.name
+        serviceId: Config-server #服务application.name
 server:
   port: 8082
 eureka:
