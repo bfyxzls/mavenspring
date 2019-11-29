@@ -1,6 +1,7 @@
 package com.lind.mavenspringb.config;
 
 
+import com.lind.mavenspringb.config.wrapper.AddTimeHeaderWrapper;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -37,7 +38,9 @@ public class AuthFilter implements Filter {
         return;
       }
     }
-    filterChain.doFilter(servletRequest, servletResponse);
+    AddTimeHeaderWrapper addTimeHeaderWrapper=new AddTimeHeaderWrapper(request);
+
+    filterChain.doFilter(addTimeHeaderWrapper, servletResponse);
   }
 
   @Override
