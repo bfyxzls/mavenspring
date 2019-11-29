@@ -8,6 +8,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +28,16 @@ public class AuthFilter implements Filter {
   @Override
   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
     logger.info("AuthFilter.doFilter");
+    HttpServletRequest request = (HttpServletRequest) servletRequest;
+    HttpServletResponse response = (HttpServletResponse) servletResponse;
+    String url=request.getRequestURI();
+    if(!url.contains("login")) {
+      if (request.getParameter("token") == null) {
+        response.sendRedirect("/login");
+        return;
+      }
+    }
+    filterChain.doFilter(servletRequest, servletResponse);
   }
 
   @Override

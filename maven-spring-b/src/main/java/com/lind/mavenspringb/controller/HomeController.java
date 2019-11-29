@@ -13,4 +13,9 @@ public class HomeController {
   public String getInfo() {
     return "service b data" + message;
   }
+
+  @GetMapping("/login")
+  public String login() {
+    return "需要先去登录";
+  }
 }
