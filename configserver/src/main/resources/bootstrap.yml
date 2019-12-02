@@ -11,14 +11,14 @@ spring:
         native:
           searchLocations: classpath:/config/{profile}
         git:
-          uri: http://192.168.0.161/lvzhuqing/beidaWisdomLaw.git
+          uri: /config_repo #保存到容器挂载的本地目录 #http://192.168.0.161/lvzhuqing/beidaWisdomLaw.git
           default-label: master
           force-pull: true
           searchPaths: '{profile}'
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://127.0.0.1:4060/eureka/
+      defaultZone: http://eurekaserver:4060/eureka # docker容器用这个 #http://127.0.0.1:4060/eureka/ #jar包运行用这个
     registry-fetch-interval-seconds: 5
   instance:
     lease-expiration-duration-in-seconds: 15

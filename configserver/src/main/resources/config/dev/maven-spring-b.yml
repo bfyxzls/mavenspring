@@ -8,7 +8,8 @@ management:
     health:
       show-details: always #开启健康信息包含磁盘空间、redis、DB，启用监控的这个spring boot应用确实是连接了redis和oracle DB
 spring:
-  profiles.include: dev-redis, dev-rabbitmq, dev-eureka
+  profiles.include: dev-redis
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/activiti5?useUnicode=true&characterEncoding=utf-8&useSSL=false
