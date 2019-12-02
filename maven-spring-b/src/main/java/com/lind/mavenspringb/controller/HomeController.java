@@ -17,6 +17,6 @@ public class HomeController {
 
   @GetMapping("/login")
   public String login() {
-    return "需要先去登录";
+    return "欢迎您来到登陆页面";
   }
 }

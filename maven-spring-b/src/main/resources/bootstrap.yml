@@ -22,3 +22,7 @@ eureka:
     instance-id: ${spring.application.name}:${random.int}
 
 message: 开发环境本地 #它会被配置中心的配置覆盖，因为先加载的它，后加载的配置中心
+logging:
+  level:
+    org.springframework.web: INFO        #Spring框架中的日志级别
+    com.lind.maven-spring-b: DEBUG    #自己项目包名下的日志级别
