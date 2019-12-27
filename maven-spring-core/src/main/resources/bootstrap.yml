@@ -12,17 +12,18 @@ spring:
         enabled: true
     sampler:
       probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
-  zipkin:
-    base-url: http://localhost:4070
+
   data:
     elasticsearch:
-      cluster-name: docker-cluster
-      cluster-nodes: 127.0.0.1:9300
+      cluster-name: myesdb
+      cluster-nodes: 172.17.0.22:32276
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/activiti5?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: root
-    password: 123456
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
+    username: sa
+    password: sa
+    initialization-mode: always
+    platform: h2
     # Druid StatViewServlet配置
     druid:
       stat-view-servlet:
@@ -69,16 +70,16 @@ server:
   tomcat:
     basedir: D:/temp
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://127.0.0.1:4060/eureka/
-    registry-fetch-interval-seconds: 5 #eureka client间隔多久去拉取服务注册信息，默认为30秒
-  instance:
-    lease-expiration-duration-in-seconds: 15 #eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，在这个时间内若没收到下一次心跳，则将移除该instance
-    lease-renewal-interval-in-seconds: 5 #eureka client发送心跳给server端的频率，默认30
-    prefer-ip-address: true #使用IP注册
-    instance-id: ${spring.application.name}:${random.int}
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://127.0.0.1:4060/eureka/
+#    registry-fetch-interval-seconds: 5 #eureka client间隔多久去拉取服务注册信息，默认为30秒
+#  instance:
+#    lease-expiration-duration-in-seconds: 15 #eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，在这个时间内若没收到下一次心跳，则将移除该instance
+#    lease-renewal-interval-in-seconds: 5 #eureka client发送心跳给server端的频率，默认30
+#    prefer-ip-address: true #使用IP注册
+#    instance-id: ${spring.application.name}:${random.int}
 management:
   endpoints:
     web:
