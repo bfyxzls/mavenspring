@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.lind.mavenspringcore.controller.modeler;
 
+import java.io.InputStream;
 import org.activiti.engine.ActivitiException;
 import org.apache.commons.io.IOUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,17 +21,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.InputStream;
-
 /**
  * @author Tijs Rademakers
  */
 @RestController
 public class StencilsetRestResource {
 
-  @RequestMapping(value="/editor/stencilset", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
-  public @ResponseBody
-  String getStencilset() {
+  @RequestMapping(value = "/editor/stencilset", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+  @ResponseBody
+  public String getStencilset() {
     InputStream stencilsetStream = this.getClass().getClassLoader().getResourceAsStream("static/stencilset.json");
     try {
       return IOUtils.toString(stencilsetStream, "utf-8");
