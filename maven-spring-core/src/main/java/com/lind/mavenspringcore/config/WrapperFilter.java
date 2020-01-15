@@ -12,9 +12,9 @@ import java.io.IOException;
 /**
  * 为Wrapper提供的过滤器.
  */
-@Component
-@ServletComponentScan
-@WebFilter(urlPatterns = "/hello/*")
+//@Component
+//@ServletComponentScan
+//@WebFilter(urlPatterns = "/hello/*")
 public class WrapperFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

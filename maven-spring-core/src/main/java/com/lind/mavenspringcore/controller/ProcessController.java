@@ -88,7 +88,7 @@ public class ProcessController {
   ActivitiConfig.ActivitiExtendProperties properties;
 
   /**
-   * 建立页面，现时也保存.
+   * 建立页面，同时也保存.
    *
    * @param request
    * @param response
