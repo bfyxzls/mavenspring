@@ -9,7 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
@@ -72,5 +79,25 @@ public class TestController {
   @GetMapping("/service-b")
   public String serviceB() {
     return mavenSpringBClient.getInfo();
+  }
+
+  /**
+   * 测试put方法收到的参数值.
+   *
+   * @param modelId 路由参数
+   * @param name    x-www-form-urlencoded键值对
+   */
+  @RequestMapping(value = "/test/{modelId}/save", method = RequestMethod.POST)
+  @ResponseBody
+  public ResponseEntity<String> saveModel(@PathVariable String modelId,
+                                          @RequestParam String name) {
+    return new ResponseEntity<>("Body param map: " + name, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/test/{modelId}/update", method = RequestMethod.PUT)
+  @ResponseBody
+  public ResponseEntity<String> updateModel(@PathVariable String modelId,
+                                            @RequestParam String name) {
+    return new ResponseEntity<>("Body param map: " + name, HttpStatus.OK);
   }
 }

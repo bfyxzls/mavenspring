@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
+//@Component
 public class XssFilter implements Filter {
 
   private static boolean IS_INCLUDE_RICH_TEXT = false;//是否过滤富文本内容

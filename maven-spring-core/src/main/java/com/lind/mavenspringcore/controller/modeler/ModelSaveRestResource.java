@@ -60,13 +60,13 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
    * @param jsonXml
    * @param svgXml
    */
-  @RequestMapping(value = "/model/{modelId}/save", method = RequestMethod.PUT)
+  @RequestMapping(value = "/model/{modelId}/save", method = RequestMethod.PUT, produces = {"application/json"})
   @ResponseStatus(value = HttpStatus.OK)
   public void saveModel(@PathVariable String modelId,
                         @RequestParam("name") String name,
                         @RequestParam("description") String description,
-                        @RequestParam("jsonXml") String jsonXml,
-                        @RequestParam("svgXml") String svgXml) {
+                        @RequestParam("json_xml") String jsonXml,
+                        @RequestParam("svg_xml") String svgXml) {
 
     try {
       Model model = repositoryService.getModel(modelId);

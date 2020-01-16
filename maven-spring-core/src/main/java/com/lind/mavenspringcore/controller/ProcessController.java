@@ -13,8 +13,8 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -162,10 +162,10 @@ public class ProcessController {
       }
     } catch (Exception e) {
       log.error(e.toString());
-      return "部署失败";
+      return "fail";
     }
 
-    return "部署成功";
+    return "success";
   }
 
   @RequestMapping(value = "/getRunningProcess", method = RequestMethod.GET)
@@ -191,7 +191,7 @@ public class ProcessController {
   /**
    * 激活流程定义.
    *
-   * @param id
+   * @param id procDefId  ACT_RE_PROCDEF.ID_
    * @return
    */
   @RequestMapping(value = "/active/{id}", method = RequestMethod.GET)
@@ -214,9 +214,15 @@ public class ProcessController {
     ProcessInstance pi = runtimeService.startProcessInstanceById(procDefId);
     // 设置流程实例名称
     runtimeService.setProcessInstanceName(pi.getId(), title);
-    return "建立流程实例成功";
+    return "create instance success";
   }
 
+  /**
+   * 通过流程定义id获取流程节点.
+   *
+   * @param id procDefId
+   * @return
+   */
   @RequestMapping(value = "/getProcessNode/{id}", method = RequestMethod.GET)
   @ApiOperation(value = "通过流程定义id获取流程节点")
   public Object getProcessNode(@ApiParam("流程定义id") @PathVariable String id) {
@@ -286,7 +292,7 @@ public class ProcessController {
         String type = pvmActivity.getProperty("type").toString();
         if ("userTask".equals(type)) {
           // 用户任务节点
-          return pvmActivity;
+          return pvmActivity.getId();
         } else if ("endEvent".equals(type)) {
           // 结束
           return "结束节点";
@@ -491,7 +497,11 @@ public class ProcessController {
    */
   @RequestMapping(value = "/pass/{procInstId}/{id}", method = RequestMethod.GET)
   @ApiOperation(value = "任务节点审批通过")
-  public Object pass(@ApiParam("流程实例id") @PathVariable String procInstId, @ApiParam("任务id") @PathVariable String id, @ApiParam("下个节点审批人") @RequestParam(required = false) String[] assignees, @ApiParam("备注") @RequestParam(required = false) String comment) {
+  public Object pass(@ApiParam("流程实例id") @PathVariable String procInstId,
+                     @ApiParam("任务id") @PathVariable String id,
+                     @ApiParam("下个节点审批人") @RequestParam(required = false) String[] assignees,
+                     @ApiParam("备注") @RequestParam(required = false) String comment,
+                     @RequestParam(required = false) Integer day) {
 
 
     if (StrUtil.isBlank(comment)) {
@@ -500,7 +510,9 @@ public class ProcessController {
     taskService.addComment(id, procInstId, comment);
     ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(procInstId).singleResult();
     Task task = taskService.createTaskQuery().taskId(id).singleResult();
-    taskService.complete(id, Collections.emptyMap());
+    Map map = new HashMap();
+    map.put("day", day);
+    taskService.complete(id, map);
 
     //判读是否会签结束，如果结束则给下一个节点赋  审批人
     List<Task> tasks = taskService.createTaskQuery().processInstanceId(procInstId).list();
@@ -524,7 +536,7 @@ public class ProcessController {
         }
       }
     }
-    return "操作成功";
+    return "success";
   }
 
   @RequestMapping(value = "/back/{procInstId}/{id}", method = RequestMethod.GET)
@@ -538,7 +550,7 @@ public class ProcessController {
     ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(procInstId).singleResult();
     // 删除流程实例
     runtimeService.deleteProcessInstance(procInstId, "backed");
-    return "操作成功";
+    return "success";
   }
 
   @RequestMapping(value = "/delete/{ids}", method = RequestMethod.DELETE)
@@ -551,7 +563,7 @@ public class ProcessController {
     for (String id : ids) {
       taskService.deleteTask(id, reason);
     }
-    return "操作成功";
+    return "success";
   }
 
   @RequestMapping(value = "/deleteHistoric/{ids}", method = RequestMethod.DELETE)
@@ -561,7 +573,7 @@ public class ProcessController {
     for (String id : ids) {
       historyService.deleteHistoricTaskInstance(id);
     }
-    return "操作成功";
+    return "success";
   }
 
   @RequestMapping(value = "/delInsByIds/{ids}", method = RequestMethod.GET)
@@ -576,7 +588,7 @@ public class ProcessController {
       ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(id).singleResult();
       runtimeService.deleteProcessInstance(id, reason);
     }
-    return "删除成功";
+    return "success";
   }
 
 
