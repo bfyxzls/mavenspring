@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.ImmutableMap;
 import com.lind.mavenspringcore.config.ActivitiConfig;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -59,11 +60,13 @@ import org.activiti.engine.task.Task;
 import org.activiti.image.ProcessDiagramGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -86,6 +89,8 @@ public class ProcessController {
   ProcessEngineConfiguration processEngineConfiguration;
   @Autowired
   ActivitiConfig.ActivitiExtendProperties properties;
+  @Autowired
+  HttpMessageConverters httpMessageConverters;
 
   /**
    * 建立页面，同时也保存.
@@ -591,5 +596,111 @@ public class ProcessController {
     return "success";
   }
 
+  @ResponseBody
+  @RequestMapping(value = "/list", method = RequestMethod.GET)
+  public Object modelist() {
+    List<Model> list = processEngine.getRepositoryService().createModelQuery()
+        .orderByCreateTime()
+        .desc()
+        .list();
+    List<Map<String, Object>> result = new ArrayList<>();
+
+    for (Model item : list) {
+      result.add(ImmutableMap.of(
+          "id", item.getId(),
+          "version", item.getVersion(),
+          "name", item.getName()
+      ));
+    }
+    return list;
+
+  }
+
+  /**
+   * 流程列表
+   *
+   * @return
+   */
+  @ResponseBody
+  @RequestMapping(value = "/deployment/list", method = RequestMethod.GET)
+  public Object deployment() {
+    List<Deployment> list = processEngine.getRepositoryService().createDeploymentQuery()
+        .orderByDeploymentId()
+        .desc()
+        .list();
+    List<Map<String, Object>> result = new ArrayList<>();
+
+    for (Deployment item : list) {
+      ProcessDefinition processDefinition = processEngine.getRepositoryService().createProcessDefinitionQuery()
+          .deploymentId(item.getId())
+          .singleResult();
+      result.add(ImmutableMap.of(
+          "id", item.getId(),
+          "time", item.getDeploymentTime(),
+          "name", item.getName(),
+          "proDefId", processDefinition.getId()
+      ));
+    }
+    return result;
+
+  }
+
+  /**
+   * 当前流程实例列表
+   *
+   * @return
+   */
+  @RequestMapping(value = "/execution/list", method = RequestMethod.GET)
+  public Object execution() {
+    List<ProcessInstance> list =
+        runtimeService.createProcessInstanceQuery()
+            .orderByProcessInstanceId()
+            .desc()
+            .list();
+    List<Map<String, Object>> result = new ArrayList<>();
+
+    for (ProcessInstance item : list) {
+      log.info("execution.id={},proc_inst_id={},proc_def_id={},isSuspended={}", item.getId(), item.getProcessInstanceId(), item.getProcessDefinitionId(), item.isSuspended());
+      Task task =
+          taskService.createTaskQuery()
+              .active()
+              .processInstanceId(item.getId())
+              .singleResult();
+      result.add(ImmutableMap.of(
+          "id", item.getId(),
+          "proDefId", item.getProcessDefinitionId(),
+          "isSuspended", item.isSuspended(),
+          "taskId", task.getId(),
+          "taskName", task.getName()
+      ));
+    }
+    return result;
+  }
+
+
+  /**
+   * 当前任务列表
+   *
+   * @return
+   */
+  @RequestMapping(value = "/task/list", method = RequestMethod.GET)
+  public Object tasks() {
+    List<Task> list =
+        taskService.createTaskQuery()
+            .orderByExecutionId()
+            .desc()
+            .list();
+    List<Map<String, Object>> result = new ArrayList<>();
+    for (Task item : list) {
+      log.info("task.id={},proc_inst_id={},proc_def_id={}", item.getId(), item.getProcessInstanceId(), item.getProcessDefinitionId());
+      result.add(ImmutableMap.of(
+          "id", item.getId(),
+          "procInstId", item.getProcessInstanceId(),
+          "procDefId", item.getProcessDefinitionId()
+      ));
+    }
+
+    return result;
+  }
 
 }

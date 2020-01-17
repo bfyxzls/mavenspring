@@ -9,7 +9,7 @@
 8. 通过流程ID获取第一个节点：/model/getFirstNode/{ACT_RE_PROCDEF.ID_}
 9. 通过流程的实例ID获取下一个节点：/model/getNextNode/{ACT_RU_TASK.PROC_INST_ID_}
 10. 高亮输出流程实例的流程图：/model/getHighlightImg/{ACT_RU_TASK.PROC_INST_ID_}
-11. 通过某个任务：/model/pass/{流程实例id}/{任务id}
+11. 审批通过某个任务：/model/pass/{流程实例id}/{任务id}
 12. 驳回某个任务：/model/back/{流程实例id}/{任务id}
 13. 删除任务：/model/delete/{任务id}
 14. 删除任务的历史：/model/deleteHistoric/{任务id}
@@ -29,8 +29,8 @@
 1. ACT_RE_DEPLOYMENT添加数据
 2. ACT_RE_PROCDEF添加数据
 3. ACT_GE_BYTEARRAY里的DEPLOYMENT_ID_对应ACT_RE_DEPLOYMENT的ID_
-## 启动流程 
-* http://localhost:8081/model/instance-create/{procInstId}
+## 启动流程成为实例
+* http://localhost:8081/model/instance-create/{procDefId}
 > 模型---发布---流程---启动---流程实例---任务---步骤审核---进入ACT_HI_TASKINST
 * ACT_RU_EXECUTION 流程实例表
 * ACT_RU_TASK 流程运行任务表 

@@ -8,7 +8,9 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <properties>
+        <activiti.version>5.22.0</activiti.version>
+    </properties>
     <artifactId>maven-spring-core</artifactId>
 
     <dependencies>
@@ -35,19 +37,19 @@
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-diagram-rest</artifactId>
-            <version>5.22.0</version>
+            <version>${activiti.version}</version>
         </dependency>
         <!-- Activiti在线设计 -->
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-modeler</artifactId>
-            <version>5.22.0</version>
+            <version>${activiti.version}</version>
         </dependency>
         <!-- Activiti -->
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
-            <version>5.22.0</version>
+            <version>${activiti.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.mybatis</groupId>
@@ -55,6 +57,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <!-- elasticsearch启动器 (必须)-->
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -105,11 +108,11 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-         </dependency>
+        </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.12.1</version>
         </dependency>
-     </dependencies>
+    </dependencies>
 </project>
