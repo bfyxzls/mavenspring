@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package com.lind.mavenspringcore.controller.modeler;
+package com.lind.activiti.controller.modeler;
 
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;

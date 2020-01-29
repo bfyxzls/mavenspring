@@ -1,6 +1,6 @@
-package com.lind.mavenspringcore.repository;
+package com.lind.esdemo.repository;
 
-import com.lind.mavenspringcore.model.Item;
+import com.lind.esdemo.model.Item;
 import java.util.List;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;

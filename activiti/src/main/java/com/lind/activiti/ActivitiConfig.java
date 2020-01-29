@@ -1,4 +1,4 @@
-package com.lind.mavenspringcore.config;
+package com.lind.activiti;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
