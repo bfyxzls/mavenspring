@@ -1,5 +1,6 @@
 package com.lind.mavenspringb;
 
+import com.lind.common.entity.EntityBase;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -12,6 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class MavenSpringBApplication {
 
   public static void main(String[] args) {
+    EntityBase entityBase;
     SpringApplication.run(MavenSpringBApplication.class, args);
   }
 }

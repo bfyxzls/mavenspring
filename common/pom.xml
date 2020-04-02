@@ -11,5 +11,15 @@
 
     <artifactId>common</artifactId>
 
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier><!-- 避免其它项目无法直接编译，编译时找不到这个包的问题-->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
