@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package com.lind.mavenspringcore.controller.modeler;
+package com.lind.activiti.controller.modeler;
 
 import java.io.InputStream;
 import org.activiti.engine.ActivitiException;

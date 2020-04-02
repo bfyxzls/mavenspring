@@ -1,7 +1,7 @@
 package com.lind.mavenspringcore;
 
 import com.lind.mavenspringcore.model.Item;
-import com.lind.mavenspringcore.repository.ItemRepository;
+import com.lind.esdemo.repository.ItemRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.elasticsearch.index.query.QueryBuilders;

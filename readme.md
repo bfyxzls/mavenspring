@@ -1,3 +1,9 @@
+# 配置中心-configserver
+将配置文件放到config-server的resource目录，来加载配置的方式，这种叫作native方式
+
+# Elasticsearch测试-es-demo
+主要对es开放的api进行了学习和测试，是一个demo的项目
+
 # activiti标准接口
 1. 获取模型：/modeler.html?modelId=ACT_RE_MODEL.ID_
 2. 添加模型：/model/create

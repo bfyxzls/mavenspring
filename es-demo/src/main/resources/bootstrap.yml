@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: esdemo
+  devtools:
+    restart:
+      enabled: true   # 热部署是否启动
+      additional-paths: src/main/java   # 监听哪一部分的目录
+      exclude: static/**,public/**,WEB-INF/**  # 排除指定的目录文件 不需要restart
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+
+  data:
+    elasticsearch:
+      cluster-name: myesdb
+      cluster-nodes: 172.17.0.22:30411

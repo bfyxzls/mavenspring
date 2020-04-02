@@ -1,4 +1,4 @@
-package com.lind.mavenspringcore.model;
+package com.lind.esdemo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
